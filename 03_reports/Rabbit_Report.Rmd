@@ -1,0 +1,60 @@
+---
+title: "Rabbit Stats"
+output: 
+  html_document:
+    theme: cosmo
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(knitr)
+library(plotly)
+library(zoo)
+
+val_today <- Sys.Date()
+load(file="C:\\Users\\janwe\\OneDrive\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\faction.csv"))
+load(file=paste0("C:\\Users\\janwe\\OneDrive\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\ranking.csv"))
+```
+
+
+
+# Rabbit Stats: `r val_today`
+
+
+## Rangliste {.tabset .tabset-pills}
+
+### Hoth
+
+```{r echo=FALSE}
+ggplotly(plot_overview_all)
+```
+
+### Endor
+
+```{r echo=FALSE}
+ggplotly(plot_overview)
+```
+
+### Coruscant
+
+```{r echo=FALSE}
+ggplotly(plot_overview)
+```
+
+### Naboo
+
+```{r echo=FALSE}
+ggplotly(plot_overview)
+```
+
+<br>
+
+## Fraktion vs Fraktion Win-Rate
+
+### Kosten und Einkommen Prognose
+
+```{r echo=FALSE}
+kable(abt_apply)
+```
+
