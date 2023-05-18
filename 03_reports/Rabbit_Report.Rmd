@@ -1,8 +1,13 @@
 ---
-title: "Rabbit Stats"
-output: 
+title: <span style="color:darkblue"> Star Wars Legion - Rabbit Stats
+output:
   html_document:
-    theme: cosmo
+    toc: true
+    toc_float: true
+    toc_collapsed: true
+    toc_depth: 3
+    highlighter: null
+    theme: "flatly"
 ---
 
 ```{r setup, include=FALSE}
@@ -13,48 +18,105 @@ library(plotly)
 library(zoo)
 
 val_today <- Sys.Date()
-load(file="C:\\Users\\janwe\\OneDrive\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\faction.csv"))
-load(file=paste0("C:\\Users\\janwe\\OneDrive\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\ranking.csv"))
+df_faction = read.csv("C:\\Users\\janwe\\OneDrive\\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\faction.csv")
+df_ranking = read.csv("C:\\Users\\janwe\\OneDrive\\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\ranking.csv")
+df_open_games = read.csv("C:\\Users\\janwe\\OneDrive\\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\open_games.csv", sep = ',')
+
+df_ranking = df_ranking %>%
+  mutate(Siege = as.integer(count_win)) %>%
+  mutate(Verluste = as.integer(count_loss)) %>%
+  mutate(Spiele = Siege + Verluste) %>%
+  select(Planet, Spieler, Spiele, Siege, Verluste)
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+ggplot2::theme_set(ggplot2::theme_minimal())
+
 ```
 
 
+`r val_today`
 
-# Rabbit Stats: `r val_today`
+# Rangliste {.tabset .tabset-pills}
 
-
-## Rangliste {.tabset .tabset-pills}
-
-### Hoth
+## Hoth
 
 ```{r echo=FALSE}
-ggplotly(plot_overview_all)
+df_planet <- df_ranking %>%
+  filter(Planet == 'Hoth')
+kable(df_planet)
 ```
 
-### Endor
+## Endor
 
 ```{r echo=FALSE}
-ggplotly(plot_overview)
+df_planet <- df_ranking %>%
+  filter(Planet == 'Endor')
+kable(df_planet)
 ```
 
-### Coruscant
+## Coruscant
 
 ```{r echo=FALSE}
-ggplotly(plot_overview)
+df_planet <- df_ranking %>%
+  filter(Planet == 'Coruscant')
+kable(df_planet)
 ```
 
-### Naboo
+## Naboo
 
 ```{r echo=FALSE}
-ggplotly(plot_overview)
+df_planet <- df_ranking %>%
+  filter(Planet == 'Naboo')
+kable(df_planet)
 ```
 
 <br>
 
-## Fraktion vs Fraktion Win-Rate
+# Fraktion vs Fraktion Win-Rate
 
-### Kosten und Einkommen Prognose
+<center>
+![](C:\\Users\\janwe\\OneDrive\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\03_reports\\heatmap.jpg)
+</center>
+
+<br>
+
+# Offene Spiele {.tabset .tabset-pills}
+
+## Hoth
 
 ```{r echo=FALSE}
-kable(abt_apply)
+df_planet <- df_open_games %>%
+  filter(Planet == 'Hoth')
+kable(df_planet)
 ```
 
+## Endor
+
+```{r echo=FALSE}
+df_planet <- df_open_games %>%
+  filter(Planet == 'Endor')
+kable(df_planet)
+```
+
+## Coruscant
+
+```{r echo=FALSE}
+df_planet <- df_open_games %>%
+  filter(Planet == 'Coruscant')
+kable(df_planet)
+```
+
+## Naboo
+
+```{r echo=FALSE}
+df_planet <- df_open_games %>%
+  filter(Planet == 'Naboo')
+kable(df_planet)
+```
+
+
+# White Rabbit
+
+<center>
+<a href="https://www.whiterabbit-cgs.de/wp/">Besucht den White Rabbit!</a>
+</center>
