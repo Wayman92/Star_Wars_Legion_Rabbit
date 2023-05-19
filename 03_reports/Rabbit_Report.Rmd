@@ -20,7 +20,7 @@ library(zoo)
 val_today <- Sys.Date()
 df_faction = read.csv("C:\\Users\\janwe\\OneDrive\\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\faction.csv")
 df_ranking = read.csv("C:\\Users\\janwe\\OneDrive\\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\ranking.csv")
-df_open_games = read.csv("C:\\Users\\janwe\\OneDrive\\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\open_games.csv", sep = ',')
+df_open_games = read.csv("C:\\Users\\janwe\\OneDrive\\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\all_games.csv", sep = ',')
 
 df_ranking = df_ranking %>%
   mutate(Siege = as.integer(count_win)) %>%
@@ -35,6 +35,21 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 
 
 `r val_today`
+
+# White Rabbit
+
+## Buchungstool 
+Der White Rabbit ist Dreh und Angelpunkt unserer Community. Freundlicherweise dürfen wir wahlweise Montags oder Samstags unsere Liga Spiele dort ausrichten.
+
+Montags müsste ihr bitte pro Spieler <b>2</b> Sitze reservieren.
+Samstags müssen 4 pro Spieler <b>4</b> Sitze reserviert werden.
+
+Nutzt bitte für die Buchung das <a href="https://www.whiterabbit-cgs.de/wp/events2/" target="_blank">Buchungstool</a>.
+
+## Verstärkung
+
+Solltet ihr feststellen, dass ihr zusätzliche Verstärkung braucht schaut mal im <a href="https://www.whiterabbit-cgs.de/shop/Star-Wars-Legion" target="_blank"> Online Store</a> vorbei oder auch gerne <a href="https://goo.gl/maps/PoLxTLegngizKfcx6" target="_blank">vor Ort</a>.
+
 
 # Rangliste {.tabset .tabset-pills}
 
@@ -75,12 +90,12 @@ kable(df_planet)
 # Fraktion vs Fraktion Win-Rate
 
 <center>
-![](C:\\Users\\janwe\\OneDrive\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\03_reports\\heatmap.jpg)
+![](C:\\Users\\janwe\\OneDrive\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\03_reports\\heatmap.png)
 </center>
 
 <br>
 
-# Offene Spiele {.tabset .tabset-pills}
+# Übersicht alle Spiele {.tabset .tabset-pills}
 
 ## Hoth
 
@@ -113,10 +128,3 @@ df_planet <- df_open_games %>%
   filter(Planet == 'Naboo')
 kable(df_planet)
 ```
-
-
-# White Rabbit
-
-<center>
-<a href="https://www.whiterabbit-cgs.de/wp/">Besucht den White Rabbit!</a>
-</center>
