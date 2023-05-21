@@ -16,11 +16,14 @@ library(ggplot2)
 library(knitr)
 library(plotly)
 library(zoo)
+library(dplyr)
 
 val_today <- Sys.Date()
 df_faction = read.csv("C:\\Users\\janwe\\OneDrive\\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\faction.csv")
 df_ranking = read.csv("C:\\Users\\janwe\\OneDrive\\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\ranking.csv")
 df_open_games = read.csv("C:\\Users\\janwe\\OneDrive\\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\all_games.csv", sep = ',')
+df_score = read.csv2("C:\\Users\\janwe\\OneDrive\\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\01_data\\02_processed\\scorestreak.csv", sep = ',')
+
 
 df_ranking = df_ranking %>%
   mutate(Siege = as.integer(count_win)) %>%
@@ -87,11 +90,55 @@ kable(df_planet)
 
 <br>
 
-# Fraktion vs Fraktion Win-Rate
+# Auswertungen
+
+## Fraktion vs Fraktion Win-Rate
 
 <center>
 ![](C:\\Users\\janwe\\OneDrive\Dokumente\\Projekte\\Star_Wars_Legion_Rabbit\\03_reports\\heatmap.png)
 </center>
+
+## Gespielte Fraktionen
+```{r echo=FALSE}
+df_f1 <- df_open_games %>%
+  group_by(Fraktion_Spieler_1) %>%
+  count(name = "f1")
+
+df_f2 <- df_open_games %>%
+  group_by(Fraktion_Spieler_2) %>%
+  count(name = "f2")
+
+df_all <- df_f1 %>%
+  left_join(df_f2, by = c("Fraktion_Spieler_1" = "Fraktion_Spieler_2") )
+
+df_all <- df_all %>%
+  mutate(all_count = f1 + f2) %>%
+  filter(!Fraktion_Spieler_1 == "") %>%
+  rename("Fraktion"="Fraktion_Spieler_1") %>%
+  rename("Gespielte Spiele"="all_count") %>%
+  select("Fraktion","Gespielte Spiele")
+
+ggplot(df_all, aes(x="", y=`Gespielte Spiele`, fill=Fraktion)) +
+  geom_bar(stat="identity", width=1, color="white") +
+  coord_polar("y", start=0) +
+  scale_fill_brewer(palette="Blues")+
+  theme_light() 
+```  
+
+## Winstreak
+
+```{r echo=FALSE}
+ggplotly(
+  ggplot(data = df_score, mapping = aes(x = reorder(Name, Winstreak), Winstreak)) + 
+    geom_segment( aes(xend=Name, yend=0)) +
+    geom_point( size=4, color="orange") +
+    coord_flip() +
+    theme_light() +
+    xlab("")
+)
+```  
+
+
 
 <br>
 
